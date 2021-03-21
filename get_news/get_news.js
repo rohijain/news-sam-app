@@ -52,7 +52,7 @@ async function getItem(date){
   TableName : 'news_table',
   /* Item properties will depend on your application concerns */
   KeyConditionExpression: '#name = :value',
-  ExpressionAttributeValues: { ':value': '09-09-1993' },
+  ExpressionAttributeValues: { ':value': date },
   ExpressionAttributeNames: { '#name': 'news_date' }
   }
     
