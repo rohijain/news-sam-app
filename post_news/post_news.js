@@ -28,15 +28,18 @@ exports.lambdaSubmit = async (event, context) => {
         const requestBody = JSON.parse(event.body);
         const date = requestBody.news_date;
         const title = requestBody.news_title;
-        const newsBody = requestBody.news_body;
+        const newsBody = requestBody.news_body
+        
+        console.log("news item::" + date + title + newsBody);
         
         const data = createNewsItem(date, title, newsBody)
         
         console.log("object::" + data);
+        const dataString = JSON.stringify(data, getCircularReplacer());
         response = {
             'statusCode': 200,
             'body': JSON.stringify({
-                newsItems: data
+                newsItems: dataString
                 // location: ret.data.trim()
             })
         }
@@ -67,3 +70,16 @@ function createNewsItem(date, title, newsBody) {
     
     //TODO: catch ddb write exceptions
 }
+
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
