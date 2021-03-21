@@ -54,7 +54,7 @@ exports.lambdaSubmit = async (event, context) => {
 function createNewsItem(date, title, newsBody) {
     
     return ddb.put({
-        TableName: 'NewsItems',
+        TableName: 'news_table',
         Item: {
             news_date: date,
             news_title: title,
