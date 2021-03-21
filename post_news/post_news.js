@@ -51,12 +51,27 @@ exports.lambdaSubmit = async (event, context) => {
     return response
 };
 
-function createNewsItem(date, title, newsBody) {
+function createNewsItem(news_date, news_title, news_body) {
     
-    return ddb.put({
+      const params = {
+    TableName: "news_table",
+    Item: {
+      news_date,
+      news_title,
+      news_body,
+    },
+  };
+
+  return ddb.put(params, (error) => {
+    if (error) {
+      console.log('Error creating Todo: ', error);
+      return error;
+    }
+    
+    /*return ddb.put({
         TableName: 'news_table',
         Item: {
-            news_date: date,
+            date,
             news_title: title,
             news_body: newsBody
         },
@@ -65,7 +80,7 @@ function createNewsItem(date, title, newsBody) {
       console.log('Error creating Todo: ', error);
       return error;
     }
-
+*/
   });
     
     //TODO: catch ddb write exceptions
