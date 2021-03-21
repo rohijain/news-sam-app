@@ -19,13 +19,23 @@ const ddb = new AWS.DynamoDB.DocumentClient();
  * 
  */
 exports.lambdaSubmit = async (event, context) => {
-    try {
         // const ret = await axios(url);
         
-        response = {
+    try{
+            
+        console.log("event:::" + JSON.stringify(event));
+        
+        const requestBody = JSON.parse(event.body);
+        const date = requestBody.news_date;
+        const title = requestBody.news_title;
+        const newsBody = requestBody.news_body;
+        
+        const data = createNewsItem(date, title, newsBody)
+        
+                response = {
             'statusCode': 200,
             'body': JSON.stringify({
-                message: 'hello to the DDB world',
+                newsItems: data,
                 // location: ret.data.trim()
             })
         }
@@ -36,3 +46,16 @@ exports.lambdaSubmit = async (event, context) => {
 
     return response
 };
+
+function createNewsItem(date, title, newsBody) {
+    return ddb.put({
+        TableName: 'NewsItems',
+        Item: {
+            news_date: date,
+            news_title: title,
+            news_body: newsBody
+        },
+    }).promise();
+    
+    //TODO: catch ddb write exceptions
+}

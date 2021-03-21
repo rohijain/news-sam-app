@@ -27,7 +27,7 @@ Resources:
   GetNewsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello-world/news/get_news/
+      CodeUri: get_news/
       AutoPublishAlias: live
       Handler: get_news.lambdaHandlerGetList
       Runtime: nodejs10.x
@@ -44,7 +44,7 @@ Resources:
   PostNewsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello-world/news/post_news/
+      CodeUri: post_news/
       AutoPublishAlias: live
       Handler: post_news.lambdaSubmit
       Runtime: nodejs10.x
