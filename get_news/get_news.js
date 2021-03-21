@@ -53,7 +53,7 @@ async function getItem(date){
   /* Item properties will depend on your application concerns */
   KeyConditionExpression: '#name = :value',
   ExpressionAttributeValues: { ':value': '09-09-1993' },
-  ExpressionAttributeNames: { '#name': 'date' }
+  ExpressionAttributeNames: { '#name': 'news_date' }
   }
     
   try {
@@ -62,7 +62,8 @@ async function getItem(date){
     console.log("data:" + JSON.stringify(data));
     return data
   } catch (err) {
-    console.log("data error:");
+    console.log("data get exception");  
+    console.log(err);
     return err
   }
 }

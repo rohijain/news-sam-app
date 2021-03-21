@@ -23,7 +23,7 @@ exports.lambdaSubmit = async (event, context) => {
         
     try{
             
-        console.log("event:::" + JSON.stringify(event));
+        console.log("event:::");
         
         const requestBody = JSON.parse(event.body);
         const date = requestBody.news_date;
@@ -32,10 +32,11 @@ exports.lambdaSubmit = async (event, context) => {
         
         const data = createNewsItem(date, title, newsBody)
         
-                response = {
+        console.log("object::" + data);
+        response = {
             'statusCode': 200,
             'body': JSON.stringify({
-                newsItems: data,
+                newsItems: data
                 // location: ret.data.trim()
             })
         }
@@ -47,15 +48,22 @@ exports.lambdaSubmit = async (event, context) => {
     return response
 };
 
-async function createNewsItem(date, title, newsBody) {
-    return await ddb.put({
+function createNewsItem(date, title, newsBody) {
+    
+    return ddb.put({
         TableName: 'NewsItems',
         Item: {
             news_date: date,
             news_title: title,
             news_body: newsBody
         },
-    }).promise();
+    }, (error) => {
+    if (error) {
+      console.log('Error creating Todo: ', error);
+      return error;
+    }
+
+  });
     
     //TODO: catch ddb write exceptions
 }
