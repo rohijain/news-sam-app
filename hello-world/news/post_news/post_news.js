@@ -2,6 +2,10 @@
 // const url = 'http://checkip.amazonaws.com/';
 let response;
 
+
+const AWS = require('aws-sdk');
+const ddb = new AWS.DynamoDB.DocumentClient();
+
 /**
  *
  * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
@@ -14,13 +18,14 @@ let response;
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  * 
  */
-exports.lambdaHandler = async (event, context) => {
+exports.lambdaSubmit = async (event, context) => {
     try {
         // const ret = await axios(url);
+        
         response = {
             'statusCode': 200,
             'body': JSON.stringify({
-                message: 'hello to the world once again',
+                message: 'hello to the DDB world',
                 // location: ret.data.trim()
             })
         }

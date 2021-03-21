@@ -29,6 +29,58 @@ Resources:
             Path: /hello
             Method: get
             
+  GetNewsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: hello-world/
+      AutoPublishAlias: live
+      Handler: get_news.lambdaHandlerGetList
+      Runtime: nodejs10.x
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref NewsTable
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getnews
+            Method: get
+
+  PostNewsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: hello-world/
+      AutoPublishAlias: live
+      Handler: post_news.lambdaSubmit
+      Runtime: nodejs10.x
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref NewsTable
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /postnews
+            Method: post
+  
+  NewsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: news_table
+      AttributeDefinitions:
+        - AttributeName: news_date
+          AttributeType: S
+        - AttributeName: news_title
+          AttributeType: S
+        - AttributeName: news_text
+          AttributeType: S
+      KeySchema:
+        - AttributeName: news_date
+          KeyType: HASH
+        - AttributeName: news_title
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+  
   CanaryErrorsAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
