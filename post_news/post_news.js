@@ -1,9 +1,13 @@
-// const axios = require('axios')
-// const url = 'http://checkip.amazonaws.com/';
+
 let response;
 
 
 const AWS = require('aws-sdk');
+AWS.config.update({
+  region: "us-east-1",
+  endpoint: "dynamodb.us-east-1.amazonaws.com"
+});
+
 const ddb = new AWS.DynamoDB.DocumentClient();
 
 /**
@@ -19,7 +23,6 @@ const ddb = new AWS.DynamoDB.DocumentClient();
  * 
  */
 exports.lambdaSubmit = async (event, context) => {
-        // const ret = await axios(url);
         
     try{
             
@@ -30,16 +33,14 @@ exports.lambdaSubmit = async (event, context) => {
         const title = requestBody.news_title;
         const newsBody = requestBody.news_body
         
-        console.log("news item::" + date + title + newsBody);
+        console.log("news item::" + date + ":" + title + ":" + newsBody);
         
-        const data = createNewsItem(date, title, newsBody)
+        await createNewsItem(date, title, newsBody);
         
-        console.log("object::" + data);
-        const dataString = JSON.stringify(data, getCircularReplacer());
         response = {
             'statusCode': 200,
             'body': JSON.stringify({
-                newsItems: dataString
+                'newsItems': 'dataString'
                 // location: ret.data.trim()
             })
         }
@@ -51,39 +52,25 @@ exports.lambdaSubmit = async (event, context) => {
     return response
 };
 
-function createNewsItem(news_date, news_title, news_body) {
+async function createNewsItem(news_date, news_title, news_body) {
     
-      const params = {
-    TableName: "news_table",
-    Item: {
-      news_date,
-      news_title,
-      news_body,
-    },
-  };
+    var params = {
+    TableName:'news_table',
+    Item:{
+        'news_date': news_date,
+        'news_title': news_title,
+        'news_body': news_body
+    }
+};
 
-  return ddb.put(params, (error) => {
-    if (error) {
-      console.log('Error creating Todo: ', error);
-      return error;
+console.log("Adding a new item...");
+await ddb.put(params, function(err, data) {
+    if (err) {
+        console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+    } else {
+        console.log("Added item:", JSON.stringify(data, null, 2));
     }
-    
-    /*return ddb.put({
-        TableName: 'news_table',
-        Item: {
-            date,
-            news_title: title,
-            news_body: newsBody
-        },
-    }, (error) => {
-    if (error) {
-      console.log('Error creating Todo: ', error);
-      return error;
-    }
-*/
-  });
-    
-    //TODO: catch ddb write exceptions
+}).promise();
 }
 
 const getCircularReplacer = () => {
