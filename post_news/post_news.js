@@ -63,6 +63,7 @@ async function createNewsItem(news_date, news_title, news_body) {
     }
 };
 
+
 console.log("Adding a new item...");
 await ddb.put(params, function(err, data) {
     if (err) {
