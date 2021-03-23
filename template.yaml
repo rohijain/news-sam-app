@@ -61,7 +61,7 @@ Resources:
   NewsTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: news_table
+      TableName: news_app_table
       AttributeDefinitions:
         - AttributeName: news_date
           AttributeType: S
