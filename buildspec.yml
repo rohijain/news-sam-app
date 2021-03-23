@@ -1,6 +1,11 @@
 # ~/environment/sam-app/buildspec.yml
 
 version: 0.2
+environment_variables:
+  plaintext:
+    "INPUT_FILE": "saml.yaml"
+    "S3_BUCKET": ""
+    
 phases:
   install:
     runtime-versions:
@@ -23,8 +28,11 @@ phases:
 
   post_build:
     commands:
+      - serverless package
+      # - serverless sam export --output $INPUT_FILE
+      - serverless sam export --output $INPUT_FILE
       # Use Post-Build for notifications, git tags, upload artifacts to S3
-      - sam package --s3-bucket $BUILD_OUTPUT_BUCKET --output-template-file packaged.yaml
+      - sam package  --template-file $INPUT_FILE --s3-bucket $BUILD_OUTPUT_BUCKET --output-template-file packaged.yaml
 
 artifacts:
   discard-paths: yes
