@@ -55,7 +55,7 @@ exports.lambdaSubmit = async (event, context) => {
 async function createNewsItem(news_date, news_title, news_body) {
     
     var params = {
-    TableName:'news_table',
+    TableName:'news_app_table',
     Item:{
         'news_date': news_date,
         'news_title': news_title,

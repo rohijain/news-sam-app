@@ -49,7 +49,7 @@ exports.lambdaHandlerGetList = async (event, context) => {
 async function getItem(date){
   console.log(date);  
   const params = {
-  TableName : 'news_table',
+  TableName : 'news_app_table',
   /* Item properties will depend on your application concerns */
   KeyConditionExpression: '#name = :value',
   ExpressionAttributeValues: { ':value': date },
