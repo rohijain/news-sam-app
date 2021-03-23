@@ -12,18 +12,20 @@ phases:
       nodejs: 10
     commands:
       # Install packages or any pre-reqs in this phase.
-      - cd hello-world
+      - npm install -g mocha
+      - npm install -g serverless
       - npm install
   
   pre_build:
     commands:
       # Run tests, lint scripts or any other pre-build checks.
+      - cd hello-world
       - npm run test
+      - cd ..
 
   build:
     commands:
       # Use Build phase to build your artifacts (compile, etc.)
-      - cd ..
       - sam build
 
   post_build:
