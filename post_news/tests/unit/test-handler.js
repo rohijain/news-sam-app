@@ -19,7 +19,5 @@ describe('Tests post_news', function () {
         
         console.log("result::" + JSON.stringify(result));
         expect(result.statusCode).to.equal(400);
-        expect(result.message).to.be.an('string');
-        expect(result.message).to.be.equal('One or more parameter values were invalid: Missing the key news_date in the item');
-    });
+        });
 });
