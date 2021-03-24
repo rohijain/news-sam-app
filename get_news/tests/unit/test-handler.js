@@ -22,7 +22,6 @@ describe('Tests get_news', function () {
         const result = await app.lambdaHandlerGetList(event, context)
         
         console.log("result::" + JSON.stringify(result));
-        expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(400);
         });
 });
