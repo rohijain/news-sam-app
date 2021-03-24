@@ -10,10 +10,21 @@ phases:
       # Install packages or any pre-reqs in this phase.
       - cd hello-world
       - npm install
+      - cd ../get_news
+      - npm install
+      - npm install aws-sdk-mock --save-dev
+      - cd ../post_news
+      - npm install
+      - npm install aws-sdk-mock --save-dev      
   
   pre_build:
     commands:
       # Run tests, lint scripts or any other pre-build checks.
+      - cd ../hello-world
+      - npm run test
+      - cd ../get_news
+      - npm run test
+      - cd ../post_news
       - npm run test
 
   build:
