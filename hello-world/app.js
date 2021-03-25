@@ -18,6 +18,9 @@ exports.lambdaHandler = async (event, context) => {
     try {
         response = {
             'statusCode': 200,
+            'headers': {
+                    "Access-Control-Allow-Origin": "*"
+            },
             'body': JSON.stringify({
                 message: 'hello to the world once again',
             })
