@@ -77,6 +77,11 @@ Resources:
           Properties:
             Path: /postnews/{proxy+}
             Method: post
+        HelloWorldOptions:
+          Type: Api
+          Properties:
+            Path: /postnews
+            Method: options
   
   NewsTable:
     Type: AWS::DynamoDB::Table
