@@ -64,7 +64,7 @@ Resources:
       Handler: post_news.lambdaSubmit
       Runtime: nodejs10.x
       Policies:
-        - DynamoDBWritePolicy:
+        - DynamoDBTableAccess:
             TableName: !Ref NewsTable
       Events:
         HelloWorld:
