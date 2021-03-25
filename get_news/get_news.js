@@ -29,6 +29,9 @@ exports.lambdaHandlerGetList = async (event, context) => {
         // const ret = await axios(url);
         response = {
             'statusCode': 200,
+            'headers': {
+                    "Access-Control-Allow-Origin": "*"
+            },
             'body': JSON.stringify({
                 newsItems: data,
                 // location: ret.data.trim()

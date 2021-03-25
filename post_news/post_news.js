@@ -39,6 +39,9 @@ exports.lambdaSubmit = async (event, context) => {
         
         response = {
             'statusCode': 200,
+            'headers': {
+                    "Access-Control-Allow-Origin": "*"
+            },
             'body': JSON.stringify({
                 'newsItems': 'dataString'
                 // location: ret.data.trim()
