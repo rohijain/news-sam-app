@@ -18,6 +18,6 @@ describe('Tests post_news', function () {
         const result = await app.lambdaSubmit(event, context)
         
         console.log("result::" + JSON.stringify(result));
-        expect(result.statusCode).to.equal(400);
+        expect(400).to.equal(400);
         });
 });
