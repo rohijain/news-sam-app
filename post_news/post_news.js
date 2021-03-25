@@ -1,5 +1,6 @@
 
 let response;
+let response_string;
 
 
 const AWS = require('aws-sdk');
@@ -23,25 +24,37 @@ const ddb = new AWS.DynamoDB.DocumentClient();
  * 
  */
 exports.lambdaSubmit = async (event, context) => {
-        
+    
+    response_string = "";        
     try{
             
-        console.log("event:::");
+        console.log("event:::" + JSON.stringify(event));
+        response_string = "event:::" + JSON.stringify(event);
+        const requestBody = JSON.parse(event.body);
+        console.log ("requestBody::" + JSON.stringify(requestBody));
+        const date = requestBody.news_date;
+        const title = requestBody.news_title;
+        const newsBody = requestBody.news_body
         
-        response = {
+        console.log("news item::" + date + ":" + title + ":" + newsBody);
+        
+        await createNewsItem(date, title, newsBody);
+        
+        
+    } catch (err) {
+        console.log(err);
+        response_string =  "ERRor::" + JSON.stringify(err);
+    }
+    response = {
             'statusCode': 200,
             'headers': {
                     "Access-Control-Allow-Origin": "*"
             },
             'body': JSON.stringify({
-                'newsItems': 'dataString'
+                'newsItems': response_string
                 // location: ret.data.trim()
             })
         }
-    } catch (err) {
-        console.log(err);
-        return err;
-    }
 
     return response
 };
