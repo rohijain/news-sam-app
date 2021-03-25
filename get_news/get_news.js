@@ -4,27 +4,22 @@ const ddb = new AWS.DynamoDB.DocumentClient();
 
 /**
  *
- * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
- * @param {Object} event - API Gateway Lambda Proxy Input Format
+ * @param {Object} event - Get news request parameters.
  *
  * Context doc: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html 
  * @param {Object} context
  *
- * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
- * @returns {Object} object - API Gateway Lambda Proxy Output Format
+ * @returns {Object} object - Returns the news date Items
  * 
  */
 exports.lambdaHandlerGetList = async (event, context) => {
     try { 
         
-        console.log("event json::");
-        // TODO implement
         const date = event.queryStringParameters.news_date;
-        console.log("request received:" + date);
+        console.log("request received for date:" + date);
         const data = await getItem(date)
-        console.log("data:::" + JSON.stringify(data))
+        console.log("data fetched form DB:" + JSON.stringify(data))
  
-        // const ret = await axios(url);
         response = {
             'statusCode': 200,
             'headers': {
@@ -32,7 +27,6 @@ exports.lambdaHandlerGetList = async (event, context) => {
             },
             'body': JSON.stringify({
                 newsItems: data,
-                // location: ret.data.trim()
             })
         }
     } catch (err) {
@@ -45,18 +39,20 @@ exports.lambdaHandlerGetList = async (event, context) => {
 };
 
 
-
+/**
+ * @param {Object} date for which the news is to be fetch.
+ * 
+ * @returns {Object} NewItems from the DDB
+ * 
+ */
 async function getItem(date){
   console.log(date);  
   const params = {
-  TableName : 'news_app_table',
-  /* Item properties will depend on your application concerns */
-  KeyConditionExpression: '#name = :value',
-  ExpressionAttributeValues: { ':value': date },
-  ExpressionAttributeNames: { '#name': 'news_date' }
-  }
-    
-    console.log(date);  
+    TableName : 'news_app_table',
+        KeyConditionExpression: '#name = :value',
+        ExpressionAttributeValues: { ':value': date },
+        ExpressionAttributeNames: { '#name': 'news_date' }
+    }
     const data =  await ddb.query(params, function(err, data) {
     if (err) {
         console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
@@ -64,5 +60,7 @@ async function getItem(date){
         console.log("Added item:", JSON.stringify(data, null, 2));
     }
     }).promise();
+    
+    return data;
    
 }

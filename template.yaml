@@ -3,7 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   sam-app
 
-  Sample SAM Template for sam-app
+  Sam template for News-sam-app.
   
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -16,23 +16,6 @@ Globals:
       AllowOrigin: "'*'"
 
 Resources:
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: hello-world/
-      Handler: app.lambdaHandler
-      Runtime: nodejs10.x
-      Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /hello
-            Method: get
-        HelloWorldGreedy:
-          Type: Api
-          Properties:
-            Path: /hello/{proxy+}
-            Method: get
             
   GetNewsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -98,12 +81,18 @@ Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  NewsAppApi:
+    Description: "API Gateway endpoint URL for Prod stage for NewsAppApi"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  GetNewsFunction:
+    Description: "Get news Lambda Function ARN"
+    Value: !GetAtt GetNewsFunction.Arn
+  GetNewsFunctionIamRole:
+    Description: "Implicit IAM Role created for Get News function"
+    Value: !GetAtt GetNewsFunctionIamRole.Arn
+  PostNewsFunction:
+    Description: "Post news Lambda Function ARN"
+    Value: !GetAtt PostNewsFunction.Arn
+  PostNewsFunctionIamRole:
+    Description: "Implicit IAM Role created for Post News function"
+    Value: !GetAtt PostNewsFunctionIamRole.Arn

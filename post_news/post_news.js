@@ -9,14 +9,12 @@ const ddb = new AWS.DynamoDB.DocumentClient();
 
 /**
  *
- * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
- * @param {Object} event - API Gateway Lambda Proxy Input Format
+ * @param {Object} event - News Items request parameters.
  *
  * Context doc: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html 
  * @param {Object} context
  *
- * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
- * @returns {Object} object - API Gateway Lambda Proxy Output Format
+ * @returns {Object} object - Returns success/failure response
  * 
  */
 exports.lambdaSubmit = async (event, context) => {
@@ -24,10 +22,7 @@ exports.lambdaSubmit = async (event, context) => {
     response_string = "";        
     try{
             
-        console.log("event:::" + JSON.stringify(event));
-        response_string = "event:::" + JSON.stringify(event);
         const requestBody = JSON.parse(event.body);
-        console.log ("requestBody::" + JSON.stringify(requestBody));
         const date = requestBody.news_date;
         const title = requestBody.news_title;
         const newsBody = requestBody.news_body
@@ -39,7 +34,7 @@ exports.lambdaSubmit = async (event, context) => {
         
     } catch (err) {
         console.log(err);
-        response_string =  "ERRor::" + JSON.stringify(err);
+        response_string =  "ERROR:" + JSON.stringify(err);
     }
     response = {
             'statusCode': 200,
@@ -48,13 +43,20 @@ exports.lambdaSubmit = async (event, context) => {
             },
             'body': JSON.stringify({
                 'newsItems': response_string
-                // location: ret.data.trim()
             })
         }
 
     return response
 };
 
+/**
+ * Writes new item to the DB
+ * @param {Object} news_date for which the news is to be fetch.
+ * @param {Object} news_title for which the news is to be fetch.
+ * @param {Object} news_body for which the news is to be fetch.
+ * 
+ * 
+ */
 async function createNewsItem(news_date, news_title, news_body) {
     
     var params = {
