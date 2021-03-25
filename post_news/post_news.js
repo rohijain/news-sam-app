@@ -28,15 +28,6 @@ exports.lambdaSubmit = async (event, context) => {
             
         console.log("event:::");
         
-        const requestBody = JSON.parse(event.body);
-        const date = requestBody.news_date;
-        const title = requestBody.news_title;
-        const newsBody = requestBody.news_body
-        
-        console.log("news item::" + date + ":" + title + ":" + newsBody);
-        
-        await createNewsItem(date, title, newsBody);
-        
         response = {
             'statusCode': 200,
             'headers': {
