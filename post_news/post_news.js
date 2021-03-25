@@ -4,10 +4,6 @@ let response_string;
 
 
 const AWS = require('aws-sdk');
-AWS.config.update({
-  region: "us-east-1",
-  endpoint: "dynamodb.us-east-1.amazonaws.com"
-});
 
 const ddb = new AWS.DynamoDB.DocumentClient();
 
