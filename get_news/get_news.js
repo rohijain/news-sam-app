@@ -1,5 +1,3 @@
-// const axios = require('axios')
-// const url = 'http://checkip.amazonaws.com/';
 let response;
 const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
