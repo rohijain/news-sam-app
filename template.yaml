@@ -107,3 +107,12 @@ Outputs:
   HelloWorldFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloWorldFunctionRole.Arn 
+  GetNewsApi:
+    Description: "API Gateway endpoint URL for Prod stage for Get News function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/getnews/"
+  GetNewsFunction:
+    Description: "Get News Lambda Function ARN"
+    Value: !GetAtt GetNewsFunction.Arn
+  GetNewsFunctionIamRole:
+    Description: "Implicit IAM Role created for Get News function"
+    Value: !GetAtt GetNewsFunctionIamRole.Arn 
