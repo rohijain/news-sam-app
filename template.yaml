@@ -115,4 +115,4 @@ Outputs:
     Value: !GetAtt GetNewsFunction.Arn
   GetNewsFunctionIamRole:
     Description: "Implicit IAM Role created for Get News function"
-    Value: !GetAtt GetNewsFunctionIamRole.Arn 
+    Value: !GetAtt GetNewsFunctionRole.Arn 
