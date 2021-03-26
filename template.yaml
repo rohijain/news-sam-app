@@ -116,3 +116,12 @@ Outputs:
   GetNewsFunctionIamRole:
     Description: "Implicit IAM Role created for Get News function"
     Value: !GetAtt GetNewsFunctionRole.Arn 
+  PostNewsApi:
+    Description: "API Gateway endpoint URL for Prod stage for Post News function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/postnews/"
+  PostNewsFunction:
+    Description: "Post News Lambda Function ARN"
+    Value: !GetAtt PostNewsFunction.Arn
+  GetNewsFunctionIamRole:
+    Description: "Implicit IAM Role created for Post News function"
+    Value: !GetAtt PostNewsFunctionRole.Arn 
