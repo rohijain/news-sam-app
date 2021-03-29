@@ -1,6 +1,6 @@
 
 let response;
-let response_string;
+let responseString;
 
 
 const AWS = require('aws-sdk');
@@ -19,7 +19,7 @@ const ddb = new AWS.DynamoDB.DocumentClient();
  */
 exports.lambdaSubmit = async (event, context) => {
     
-    response_string = "";        
+    responseString = "";        
     try{
             
         const requestBody = JSON.parse(event.body);
@@ -34,7 +34,7 @@ exports.lambdaSubmit = async (event, context) => {
         
     } catch (err) {
         console.log(err);
-        response_string =  "ERROR:" + JSON.stringify(err);
+        responseString =  "ERROR:" + JSON.stringify(err);
     }
     response = {
             'statusCode': 200,
@@ -42,7 +42,7 @@ exports.lambdaSubmit = async (event, context) => {
                     "Access-Control-Allow-Origin": "*"
             },
             'body': JSON.stringify({
-                'newsItems': response_string
+                'newsItems': responseString
             })
         }
 

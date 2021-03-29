@@ -30,7 +30,7 @@ exports.lambdaHandlerGetList = async (event, context) => {
     response = {
             'statusCode': 200,
             'headers': {
-                    "Access-Control-Allow-Origin": "*"
+                    "Access-Control-Allow-Origin": "http://master3.account-0.aws-tests.skyworkz.nl/"
             },
             'body': JSON.stringify({
                 newsItems: dataResponse,
