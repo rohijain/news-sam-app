@@ -7,8 +7,8 @@ const chai = require('chai');
 const expect = chai.expect;
 var event, context;
 
-describe('Tests get_news', function () {
-    it('create create DDB exception while get news item', async () => {
+describe('Test get_news', function () {
+    it('Validates response headers', async () => {
             AWS.mock('DynamoDB', 'query', function (params, callback){
                 callback(null, "successfully query item in database");
             });
@@ -22,6 +22,6 @@ describe('Tests get_news', function () {
         const result = await app.lambdaHandlerGetList(event, context)
         
         console.log("result::" + JSON.stringify(result));
-        expect(result.statusCode).to.equal(400);
+        expect(result.headers['Access-Control-Allow-Origin']).to.equal("*");
         });
 });

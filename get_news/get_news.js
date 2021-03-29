@@ -1,4 +1,5 @@
 let response;
+let dataResponse;
 const AWS = require('aws-sdk');
 const ddb = new AWS.DynamoDB.DocumentClient();
 
@@ -17,23 +18,24 @@ exports.lambdaHandlerGetList = async (event, context) => {
         
         const date = event.queryStringParameters.news_date;
         console.log("request received for date:" + date);
-        const data = await getItem(date)
-        console.log("data fetched form DB:" + JSON.stringify(data))
+        dataResponse = await getItem(date)
+        console.log("data fetched form DB:" + JSON.stringify(dataResponse))
  
-        response = {
+        
+    } catch (err) {
+        console.log(err);
+        dataResponse = err;
+    }
+    
+    response = {
             'statusCode': 200,
             'headers': {
                     "Access-Control-Allow-Origin": "*"
             },
             'body': JSON.stringify({
-                newsItems: data,
+                newsItems: dataResponse,
             })
         }
-    } catch (err) {
-        console.log(err);
-        return err;
-    }
-    
 
     return response
 };

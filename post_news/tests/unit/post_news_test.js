@@ -1,14 +1,15 @@
 'use strict';
 
 var AWS = require('aws-sdk-mock');
+var event, context;
 
 const app = require('../../post_news.js');
 const chai = require('chai');
 const expect = chai.expect;
-var event, context;
+
 
 describe('Tests post_news', function () {
-    it('throw DDB exception while posting', async () => {
+    it('Checks response header', async () => {
            AWS.mock('DynamoDB', 'put', function (params, callback){
                 callback(null, "successfully put item in database");
             });
@@ -18,6 +19,6 @@ describe('Tests post_news', function () {
         const result = await app.lambdaSubmit(event, context)
         
         console.log("result::" + JSON.stringify(result));
-        expect(400).to.equal(400);
+        expect(result.headers['Access-Control-Allow-Origin']).to.equal("*");
         });
 });
