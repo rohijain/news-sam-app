@@ -19,6 +19,6 @@ describe('Tests post_news', function () {
         const result = await app.lambdaSubmit(event, context)
         
         console.log("result::" + JSON.stringify(result));
-        expect(result.headers['Access-Control-Allow-Origin']).to.equal("*");
+        expect(result.headers['Access-Control-Allow-Origin']).to.equal("http://master3.account-0.aws-tests.skyworkz.nl");
         });
 });
